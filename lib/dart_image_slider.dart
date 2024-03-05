@@ -38,9 +38,11 @@ class _DartImageSliderState extends State<DartImageSlider> {
         targetWidth: widget.thumbWidth, targetHeight: widget.thumbHeight);
     ui.Image image = (await codec.getNextFrame()).image;
     myShape = MyShape(image: image);
-    setState(() {
-      _loading = false;
-    });
+    if (this.mounted) {
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 
   // This widget is the root of your application.
@@ -51,10 +53,11 @@ class _DartImageSliderState extends State<DartImageSlider> {
         if (_loading) Container(),
         if (!_loading)
           Center(
-              child: SliderTheme(
-            data: SliderThemeData(thumbShape: myShape),
-            child: widget.slider,
-          )),
+            child: SliderTheme(
+              data: SliderThemeData(thumbShape: myShape),
+              child: widget.slider,
+            ),
+          ),
       ],
     );
   }
